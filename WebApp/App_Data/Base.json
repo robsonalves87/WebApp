@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 1,
+    "Nome": "Maria",
+    "Sobrenome": "Gonçalves",
+    "Telefone": "4654654",
+    "Data": "2005-01",
+    "RA": 10
+  },
+  {
+    "Id": 2,
+    "Nome": "Barbará",
+    "Sobrenome": "Silva",
+    "Telefone": "4654654",
+    "Data": "2006-01",
+    "RA": 11
+  },
+  {
+    "Id": 3,
+    "Nome": "Katarina",
+    "Sobrenome": "Alencar",
+    "Telefone": "4654654",
+    "Data": "2004-12",
+    "RA": 12
+  },
+  {
+    "Id": 4,
+    "Nome": "Esméria",
+    "Sobrenome": "Gama",
+    "Telefone": "456432174",
+    "Data": "2000-01",
+    "RA": 13
+  },
+  {
+    "Id": 5,
+    "Nome": "Joana",
+    "Sobrenome": "Gonçalves",
+    "Telefone": "132134",
+    "Data": "2000-01",
+    "RA": 14
+  }
+]
