@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title></title>
+	<!-- Bootstrap -->
+	<link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/floating-labels/">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" href="https://getbootstrap.com/docs/4.4/assets/img/favicons/apple-touch-icon.png"
+		sizes="180x180">
+	<link rel="icon" href="https://getbootstrap.com/docs/4.4/assets/img/favicons/favicon-32x32.png" sizes="32x32"
+		type="image/png">
+	<link rel="icon" href="https://getbootstrap.com/docs/4.4/assets/img/favicons/favicon-16x16.png" sizes="16x16"
+		type="image/png">
+	<link rel="manifest" href="https://getbootstrap.com/docs/4.4/assets/img/favicons/manifest.json">
+	<link rel="mask-icon" href="https://getbootstrap.com/docs/4.4/assets/img/favicons/safari-pinned-tab.svg"
+		color="#563d7c">
+	<link rel="icon" href="https://getbootstrap.com/docs/4.4/assets/img/favicons/favicon.ico">
+
+	<style>
+		.bd-placeholder-img {
+			font-size: 1.125rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
+		@media (min-width: 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+	</style>
+
+	<!-- Custom styles for this template -->
+	<link href="https://getbootstrap.com/docs/4.4/examples/floating-labels/floating-labels.css" rel="stylesheet">
+
+</head>
+
+<body>
+	<form class="form-signin" onsubmit="login();">
+
+		<div class=" mb-4">
+			<h1 class="h3 mb-3 font-weight-normal">Acadêmico</h1>
+		</div>
+
+		<div class="form-label-group">
+			<input type="text" id="email" class="form-control" placeholder="Email address" required autofocus>
+			<label for="email">E-mail</label>
+		</div>
+
+		<div class="form-label-group">
+			<input type="password" id="password" class="form-control" placeholder="Password" required>
+			<label for="password">Senha</label>
+		</div>
+
+		<div class="checkbox mb-3">
+			<label>
+				<input type="checkbox" value="remember-me"> Lembre-me
+			</label>
+		</div>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+		<p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2020</p>
+	</form>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+
+	<script>
+		(() => {
+			if(sessionStorage.getItem('token') != null){
+				window.location.href = 'index.html';
+			}
+		})()
+		
+		var login = function () {
+			event.preventDefault();
+
+			var nome = document.querySelector('#email');
+			var password = document.querySelector('#password');
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', 'https://localhost:44341/token', true);
+
+			xhr.onreadystatechange = function () {
+				xhr.onload = function () {
+					var result = JSON.parse(this.responseText);
+					//console.log(result);
+					if(result.error != 'invalid_grant'){
+						sessionStorage.setItem('token',`${result.token_type} ${result.access_token}`)
+						verificar();
+					}
+					else{
+						alert(result.error_description);
+						nome.value = "";
+						password.value = "";
+					}
+					//console.log(`${result.token_type} ${result.access_token}`);
+
+				}
+			}
+
+			xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded')
+			xhr.send(`grant_type=password&username=${nome.value}&password=${password.value}`);
+		}
+
+		var verificar = function () {
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', 'https://localhost:44341/api/Aluno/Recuperar', true);
+
+			xhr.onreadystatechange = function () {
+				var result = this.responseText
+				window.location.href = 'index.html';
+
+			}
+			xhr.setRequestHeader('Authorization', sessionStorage.getItem('token'))
+			xhr.send();
+		}
+	</script>
+</body>
+
+</html>
